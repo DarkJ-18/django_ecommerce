@@ -1,0 +1,11 @@
+{% extends '../../admin/bases/_base_admin.html' %}
+
+{% load static %}
+
+{% block titulo %}Productos{% endblock %}
+
+{% block main %}
+    {% block lista_productos %}
+        {% include 'admin/productos/_productos.html' %}
+    {% endblock %}
+{% endblock %}

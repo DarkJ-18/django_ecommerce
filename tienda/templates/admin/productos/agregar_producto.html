@@ -1,0 +1,63 @@
+{% extends '../../admin/bases/_base_admin.html' %}
+{% load static %}
+
+{% block titulo %}Agregar Producto{% endblock %}
+
+
+{% block main %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-12 col-md-8 col-lg-6">
+            <div class="card shadow-sm">
+                <div class="card-header">
+                    <h4 class="card-title">{% if data %}Actualizar Producto{% else %}Agregar Producto{% endif %}</h4>
+                </div>
+                <div class="card-body">
+                    <form action="#" method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label class="form-label">Nombre:</label>
+                            <input type="text" name="nombre" required="" class="form-control" value="{{ data.nombre|default:'' }}" />
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Descripción:</label>
+                            <textarea name="descripcion" required="" class="form-control">{{ data.descripcion|default:'' }}</textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Precio:</label>
+                            <input type="number" name="precio" required="" class="form-control" value="{{ data.precio|default:'' }}" />
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Stock:</label>
+                            <input type="number" name="stock" required="" class="form-control" value="{{ data.stock|default:'' }}" />
+                        </div>
+                        <div class="mb-3">
+                            <label for="imagenes" class="form-label">Imágenes (máximo 5)</label>
+                            <input type="file" class="form-control" id="imagenes" name="imagenes" multiple accept=".jpeg,.jpg,.png,.gif,.webp">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Categoría:</label>
+                            <select name="categoria" class="form-control">
+                                {% for key, value in categorias %}
+                                    <option value="{{ key }}">{{ value }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Color:</label>
+                            <input type="text" class="form-control" name="color" value="{{ data.color|default:'' }}" />
+                        </div>
+                        <div class="d-flex justify-content-end">
+                            {% if data %}
+                                <button type="submit" class="btn btn-info">Actualizar Producto</button>
+                            {% else %}
+                                <button type="submit" class="btn btn-success">Guardar Producto</button>
+                            {% endif %}
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,83 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block titulo %}...{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/bootstrap-icons.min.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" />
+    
+</head>
+
+<body>
+    <header>
+        {% include 'bases/_navbar.html' %}
+    </header>
+    <div id="notificaciones">
+        {% if messages %}
+        {% for message in messages %}
+        <div class="alert alert-{% if message.tags and message.tags != 'error' %}{{ message.tags }}{% else %}danger{% endif %} alert-dismissible fade show"
+            role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        {% endfor %}
+        {% endif %}
+    </div>
+    <main>
+        {% block main %}
+        {% endblock %}
+    </main>
+    <!-- Footer -->
+    <footer class="bg-dark text-white pt-5 pb-4">
+        <div class="container">
+            <div class="row text-center text-md-start">
+                <!-- Sección About -->
+                <div class="col-12 col-md-4 col-lg-4 mb-4">
+                    <h6 class="text-uppercase font-weight-bold mb-3">About</h6>
+                    <p>Explora nuestra tienda y encuentra todo lo que necesitas con solo unos clics. ¡Gracias por
+                        confiar en nosotros!</p>
+                </div>
+                <!-- Sección Enlaces -->
+                <div class="col-12 col-md-4 col-lg-2 mx-auto mb-4">
+                    <h6 class="text-uppercase font-weight-bold mb-3">Enlaces de interés</h6>
+                    <p><a href="#" class="text-white text-decoration-none">Ayuda</a></p>
+                    {% if request.session.pista.rol == 1 %}
+                    <p><a href="{% url 'administrador' %}" class="text-white text-decoration-none">Admin</a></p>
+                    {% endif %}
+                </div>
+                <!-- Sección Contacto -->
+                                <div class="col-12 col-md-4 col-lg-3 mb-4">
+                    <h6 class="text-uppercase font-weight-bold mb-3">Contacto</h6>
+                    <p><i class="bi bi-envelope-fill me-2"></i>j.juancamilojurado@gmail.com</p>
+                    <p>
+                        <a href="https://github.com/DarkJ-18" target="_blank" class="text-white text-decoration-none">
+                            <i class="bi bi-github me-2"></i>Github
+                        </a>
+                    </p>
+                    <p>
+                        <a href="https://linkedin.com/in/darkj22" target="_blank" class="text-white text-decoration-none">
+                            <i class="bi bi-linkedin me-2"></i>Linkedin
+                        </a>
+                    </p>
+                    <p>
+                        <a href="https://instagram.com/dark_.j" target="_blank" class="text-white text-decoration-none">
+                            <i class="bi bi-instagram me-2"></i>Instagram
+                        </a>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="text-center py-4 border-top">
+            <p>@ 2025 Todos los derechos reservador por Juan Camilo</p>
+        </div>
+    </footer>
+    <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'js/jquery.min.js' %}"></script>
+</body>
+
+</html>

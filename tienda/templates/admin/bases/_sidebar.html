@@ -1,0 +1,29 @@
+{% load static %}
+<nav class="sidebar bg-dark text-white p-3 flex-shrink-0" style="width: 250px; min-height: 100vh;">
+    <!-- Lista principal -->
+    <ul class="nav flex-column" id="sidebarMenu">
+        <li class="nav-item">
+            <a class="nav-link text-white d-flex justify-content-between align-items-center" data-bs-toggle="collapse"
+                href="#ventasCollapse" role="button" aria-expanded="false" aria-controls="ventasCollapse">
+                <span><i class="fas fa-shopping-bag me-2"></i>Panel Produtos</span>
+                <i class="fas fa-chevron-down"></i>
+            </a>
+            <ul class="collapse list-unstyled" id="ventasCollapse">
+                <li><a class="nav-link text-white ms-4" href="{% url 'agregar_producto' %}">Agregar Producto</a></li>
+                <li><a class="nav-link text-white ms-4" href="{% url 'listar_productos' %}">Ver Productos</a></li>
+                
+            </ul>
+        </li>
+        <!-- Ítems sin submenú -->
+        <li class="nav-item">
+            <a class="nav-link text-white" href="#">
+                <i class="fas fa-user-circle me-2"></i> Mi Perfil
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link text-white" href="#">
+                <i class="fas fa-cog me-2"></i> Configuración
+            </a>
+        </li>
+    </ul>
+</nav>

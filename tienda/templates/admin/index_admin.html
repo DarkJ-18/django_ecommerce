@@ -1,0 +1,39 @@
+{% extends '../admin/bases/_base_admin.html' %}
+
+{% load static %}
+
+{% block titulo %}Tienda{% endblock %}
+
+
+{% block main %}
+
+<div class="d-flex" style="width: 100%;">
+    {% include '../admin/bases/_sidebar.html' %}
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <h1 class="text-center">Panel de Administración</h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <h2 class="text-center">Bienvenido</h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <h3 class="text-center">¿Qué deseas hacer?</h3>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <div class="d-flex justify-content-center">
+                    <a href="" class="btn btn-primary ">Administrar Productos</a>
+                    <a href="" class="btn btn-primary">Administrar Usuarios</a>
+                </div>
+            </div>
+        </div>
+    </div>
+   
+
+{% endblock %}

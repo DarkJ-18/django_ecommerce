@@ -1,0 +1,17 @@
+.vscode
+.idea/
+/media/productos/*
+
+db.sqlite3
+
+# Archivos de caché
+__pycache__/
+
+# Archivos de configuración de entornos virtuales
+.env
+.venv
+env/
+venv/
+*.log
+
+
