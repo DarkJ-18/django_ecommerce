@@ -2,7 +2,7 @@
 
 ### 1. Clonar el repositorio  
 ```bash
-git clone 
+git clone https://github.com/DarkJ-18/django_ecommerce.git
 cd tienda  
 ```
 ### 2. Instalar dependencias  
