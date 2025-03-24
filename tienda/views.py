@@ -38,15 +38,13 @@ def logout(request):
 
 def index(request):
     q = Producto.objects.all()
-    categorias = Producto.CATEGORIAS
-    context = {'data': q, 'categorias': categorias}
+    context = {'data': q}
     return render(request, 'tienda/index.html', context)
 
 @session_rol_permission(1)
 def administrador(request):
     q = Producto.objects.all()
-    categorias = Producto.CATEGORIAS
-    context = {'data': q, 'categorias': categorias}
+    context = {'data': q}
     return render(request, 'admin/index_admin.html', context)
 
 def listar_productos(request):
@@ -56,7 +54,6 @@ def listar_productos(request):
 
 @session_rol_permission(1)
 def agregar_producto(request):
-    categorias = Producto.CATEGORIAS
     if request.method == 'POST':
         nombre = request.POST.get('nombre')
         descripcion = request.POST.get('descripcion')
@@ -91,12 +88,10 @@ def agregar_producto(request):
             messages.error(request, f"Error: {e}")
         return redirect('administrador')
     else:
-        return render(request, 'admin/productos/agregar_producto.html', {'categorias': categorias})
-    
+        return render(request, 'admin/productos/agregar_producto.html')
 
 @session_rol_permission(1)
 def editar_producto(request, id_producto):
-    categorias = Producto.CATEGORIAS
     if request.method == 'POST':
         nombre = request.POST.get('nombre')
         descripcion = request.POST.get('descripcion')
@@ -124,11 +119,8 @@ def editar_producto(request, id_producto):
         return redirect('listar_productos')
     else:
         q = Producto.objects.get(id=id_producto)
-        return render(request, 'admin/productos/editar_producto.html', {'producto': q, 'categorias': categorias})
-    
-    
-    
-    
+        return render(request, 'admin/productos/editar_producto.html', {'producto': q})
+
 @session_rol_permission(1)
 def eliminar_producto(request, id_producto):
     try:
@@ -141,8 +133,6 @@ def eliminar_producto(request, id_producto):
         messages.error(request, f'Error: {e}')
     return redirect('listar_productos')
 
-
 def detalle_producto(request, id_producto):
     producto = get_object_or_404(Producto, id=id_producto)
     return render(request, 'admin/productos/detalle_producto.html', {'producto': producto})
-

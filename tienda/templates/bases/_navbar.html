@@ -1,3 +1,4 @@
+<!-- filepath: c:\Users\jjuan\Desktop\Proyectos Django\ecommerce\tienda\templates\bases\_navbar.html -->
 {% load static %}
 <nav class="navbar navbar-expand-lg bg-body-tertiary">
     <div class="container-fluid">
@@ -8,31 +9,31 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                {% if request.session.pista.rol == 1  %}
+                {% if request.session.pista.rol == 1 %}
                     <li class="nav-item">
                         <a class="nav-link active" aria-current="page" href="{% url 'administrador' %}">Admin</a>
                     </li>
                 {% endif %}
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="{% url 'index' %}">Inicio</a>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                            aria-expanded="false">
-                            Categorías
-                        </a>
-                        <ul class="dropdown-menu">
-                            {% for key, value in categorias %}
-                            <li><a class="dropdown-item" href="#">{{ value }}</a></li>
-                            {% endfor %}
-                        </ul>
-                    </li>
-                </ul>
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="{% url 'index' %}">Inicio</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                        aria-expanded="false">
+                        Categorías
+                    </a>
+                    <ul class="dropdown-menu">
+                        {% for key, value in categorias %}
+                        <li><a class="dropdown-item" href="#">{{ value }}</a></li>
+                        {% endfor %}
+                    </ul>
+                </li>
+            </ul>
             <form class="d-flex" role="search">
                 <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
                 <button class="btn btn-outline-success" type="submit">Search</button>
             </form>
-            {% if request.session.pista.rol == 1  %}
+            {% if request.session.pista.rol == 1 %}
                 <li>
                     <a class="btn btn-buttom" href="{% url 'logout' %}">Cerrar Sesión</a>
                 </li>
