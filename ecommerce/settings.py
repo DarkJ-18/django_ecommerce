@@ -38,7 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'tienda'
+    'tienda',
+    'django.contrib.humanize', # para formatear números en los templates
 ]
 
 MIDDLEWARE = [

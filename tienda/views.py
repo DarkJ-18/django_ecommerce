@@ -3,8 +3,10 @@ import django.contrib
 from django.core.exceptions import ValidationError
 from django.shortcuts import get_object_or_404
 from django.contrib import messages
+from decimal import Decimal
 from .models import *
 from .utils import *
+from .templatetags.custom_filters import *
 
 
 def login(request):
@@ -57,23 +59,29 @@ def agregar_producto(request):
     if request.method == 'POST':
         nombre = request.POST.get('nombre')
         descripcion = request.POST.get('descripcion')
-        precio = request.POST.get('precio')
+        precio = Decimal(request.POST.get('precio'))  # Convertir a Decimal
+        descuento = Decimal(request.POST.get('descuento', 0))  # Evita None
+        en_oferta = request.POST.get('en_oferta') == 'on'
         stock = request.POST.get('stock')
         color = request.POST.get('color')
         categoria = request.POST.get('categoria')
         imagenes = request.FILES.getlist('imagenes')
         try:
-            # se valida la cantidad de imagenes
             if len(imagenes) > 5:
                 raise Exception("No se pueden agregar más de 5 imágenes")
             formatos_permitidos = ['image/png', 'image/jpg', 'image/jpeg', "image/webp"]
             for imagen in imagenes:
                 if imagen.content_type not in formatos_permitidos:
                     raise ValidationError(f"Formato no permitido: {imagen.content_type}. Solo se aceptan JPEG, PNG, GIF o WEBP.")
+            precio_original = precio  # Se guardar el precio original antes del descuento
+            precio_final = precio - (precio * descuento / 100) if en_oferta and descuento > 0 else precio
             producto = Producto(
                 nombre=nombre,
                 descripcion=descripcion,
-                precio=precio,
+                precio=precio_final,  # se guarda el precio con descuento si aplica 
+                precio_original=precio_original,
+                descuento=descuento,
+                en_oferta=en_oferta,
                 stock=stock,
                 color=color,
                 categoria=categoria
@@ -83,12 +91,13 @@ def agregar_producto(request):
                 ImagenProducto.objects.create(producto=producto, imagen=imagen)
             messages.success(request, 'Producto agregado correctamente')
         except ValidationError as ve:
-            messages.error(request, f"Error de validacion: {ve}" )
+            messages.error(request, f"Error de validacion: {ve}")
         except Exception as e:
             messages.error(request, f"Error: {e}")
         return redirect('administrador')
     else:
         return render(request, 'admin/productos/agregar_producto.html')
+
 
 @session_rol_permission(1)
 def editar_producto(request, id_producto):
@@ -96,6 +105,9 @@ def editar_producto(request, id_producto):
         nombre = request.POST.get('nombre')
         descripcion = request.POST.get('descripcion')
         precio = request.POST.get('precio')
+        precio_original = request.POST.get('precio_original')
+        descuento = request.POST.get('descuento')
+        en_oferta = request.POST.get('en_oferta') == 'on'
         stock = request.POST.get('stock')
         color = request.POST.get('color')
         categoria = request.POST.get('categoria')
@@ -104,7 +116,18 @@ def editar_producto(request, id_producto):
             q = Producto.objects.get(id=id_producto)
             q.nombre = nombre
             q.descripcion = descripcion
-            q.precio = precio
+            # Convertir los valores a Decimal para evitar problemas en el cálculo
+            precio = Decimal(precio)
+            q.precio_original = precio
+            descuento_decimal = Decimal(descuento) if descuento else Decimal(0)
+            q.descuento = descuento_decimal
+            q.en_oferta = en_oferta
+            
+            # si esta en oferta o descuento se calcula aqui
+            if en_oferta and descuento_decimal > 0:
+                q.precio = round(precio - (precio * descuento_decimal / Decimal(100)), 2)
+            else:
+                q.precio = precio
             q.stock = stock
             q.color = color
             q.categoria = categoria

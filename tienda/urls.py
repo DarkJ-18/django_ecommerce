@@ -3,6 +3,8 @@ from django.conf import settings
 from django.urls import path
 from .import views
 
+# app_name = 'tienda' # para usar la url de la app en los templates
+
 urlpatterns = [
     
     # vistas admin

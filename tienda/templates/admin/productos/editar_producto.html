@@ -1,6 +1,6 @@
 {% extends '../../admin/bases/_base_admin.html' %}
+{% load static humanize %}
 
-{% load static %}
 
 {% block titulo %}Editar Producto{% endblock %}
 
@@ -20,6 +20,18 @@
         <div class="mb-3">
             <label for="precio" class="form-label">Precio</label>
             <input type="number" class="form-control" id="precio" name="precio" value="{{ producto.precio }}">
+        </div>
+        <div class="mb-3">
+            <label for="precio_original" class="form-label">Precio Original</label>
+            <input type="number" class="form-control" id="precio_original" name="precio_original" value="{{ producto.precio_original }}">
+        </div>
+        <div class="mb-3">
+            <label for="descuento" class="form-label">Descuento (%)</label>
+            <input type="number" class="form-control" id="descuento" name="descuento" value="{{ producto.descuento }}">
+        </div>
+        <div class="mb-3">
+            <label for="en_oferta" class="form-label">En Oferta</label>
+            <input type="checkbox" class="form-check-input" id="en_oferta" name="en_oferta" {% if producto.en_oferta %}checked{% endif %}>
         </div>
         <div class="mb-3">
             <label for="stock" class="form-label">Stock</label>

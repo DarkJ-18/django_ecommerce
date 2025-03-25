@@ -1,6 +1,6 @@
 {% extends '../bases/_base.html' %}
 
-{% load static %}
+{% load static humanize %}
 
 {% block titulo %}Tienda{% endblock %}
 
@@ -46,6 +46,9 @@
         {% block lista_productos %}
             {% include 'admin/productos/_productos.html' %}
         {% endblock %}
+        <div class="container">
+            <a href="{% url 'listar_productos' %}" class="btn btn-dark px-4 py-2 ms-4">Ver mas</a>
+        </div>
 </section>
 
 

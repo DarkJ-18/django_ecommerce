@@ -1,7 +1,5 @@
 {% extends '../../admin/bases/_base_admin.html' %}
-
-
-{% load static %}
+{% load static humanize custom_filters %}
 
 {% block titulo %}Detalle del Producto{% endblock %}
 
@@ -11,15 +9,19 @@
         <div class="col-md-6 mb-4">
             <div class="">
                 {% if producto.imagenes.all|length > 0 %}
-                    <img id="mainImage" src="{{ producto.imagenes.all.0.imagen.url }}" class="card-img-top img-fluid mb-3" alt="Imagen del producto">
+                <img id="mainImage" src="{{ producto.imagenes.all.0.imagen.url }}" class="card-img-top img-fluid mb-3"
+                    alt="Imagen del producto">
                 {% else %}
-                    <img id="mainImage" src="{% static 'images/product.jpg' %}" class="card-img-top img-fluid" alt="Imagen no disponible">
+                <img id="mainImage" src="{% static 'images/product.jpg' %}" class="card-img-top img-fluid"
+                    alt="Imagen no disponible">
                 {% endif %}
                 <div class="card-body">
                     <div class="row g-2 justify-content-center">
                         {% for imagen in producto.imagenes.all %}
                         <div class="col-3 col-md-2">
-                            <img src="{{ imagen.imagen.url }}" class="img-thumbnail thumbnail" alt="Thumbnail {{ forloop.counter }}" onclick="changeMainImage('{{ imagen.imagen.url }}')">
+                            <img src="{{ imagen.imagen.url }}" class="img-thumbnail thumbnail"
+                                alt="Thumbnail {{ forloop.counter }}"
+                                onclick="changeMainImage('{{ imagen.imagen.url }}')">
                         </div>
                         {% endfor %}
                     </div>
@@ -29,10 +31,10 @@
         <div class="col-md-6">
             <h1 class="h2 mb-3">{{ producto.nombre }}</h1>
             <div class="mb-3">
-                <span class="h4 me-2">${{ producto.precio }}</span>
+                <span class="h4 me-2">${{ producto.precio|floatformat:0|intcomma|replace_comma }}</span>
                 {% if producto.en_oferta %}
-                <span class="text-muted text-decoration-line-through">${{ producto.precio_original }}</span>
-                <span class="badge bg-danger ms-2">{{ producto.descuento }}% OFF</span>
+                <span class="text-muted text-decoration-line-through"> ${{ producto.precio_descuento|floatformat:0|intcomma|replace_comma }}</span>
+                <span class="badge bg-danger ms-2">{{ producto.descuento |floatformat:0  }}% OFF</span>
                 {% endif %}
             </div>
             <div class="mb-3">
@@ -93,8 +95,8 @@
 </div>
 
 <script>
-function changeMainImage(url) {
-    document.getElementById('mainImage').src = url;
-}
+    function changeMainImage(url) {
+        document.getElementById('mainImage').src = url;
+    }
 </script>
 {% endblock %}
