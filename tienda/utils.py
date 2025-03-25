@@ -17,3 +17,5 @@ def session_rol_permission(*roles):
                 return redirect("login")
         return decorada
     return decorador
+
+

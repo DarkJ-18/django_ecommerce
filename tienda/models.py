@@ -1,4 +1,5 @@
 from django.db import models
+from decimal import Decimal
 
 # Create your models here.
 
@@ -34,9 +35,17 @@ class Producto(models.Model):
         (10, "Automotriz y Motocicletas")
     )
     categoria = models.IntegerField(choices=CATEGORIAS, default=0, null=True, blank=True)
+    en_oferta = models.BooleanField(default=False)
+    precio_original = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+    descuento = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
     
-    def __str__(self):
-        return f"{self.nombre} - {self.precio} - ({self.stock} unidades)"
+    @property
+    def precio_descuento(self):
+        """ Calcula el precio con descuento si está en oferta """
+        if self.en_oferta and self.descuento:
+            precio_final = self.precio - (self.precio * self.descuento / Decimal(100))
+            return round(precio_final, 2)
+        return self.precio
     
     
 class ImagenProducto(models.Model):

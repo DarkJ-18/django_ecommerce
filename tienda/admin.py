@@ -10,7 +10,7 @@ class UsuarioAdmin(admin.ModelAdmin):
 
 @admin.register(Producto)
 class ProductoAdmin(admin.ModelAdmin):
-    list_display = ('nombre', 'precio', 'stock', 'categoria', 'color')
+    list_display = ('nombre', 'precio', 'stock', 'categoria', 'color', 'en_oferta', 'precio_original', 'descuento')
     list_filter = ('categoria', 'color')
     search_fields = ('nombre', 'descripcion')
     ordering = ('nombre', 'precio')
