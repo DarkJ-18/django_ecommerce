@@ -2,8 +2,6 @@
 .idea/
 /media/productos/*
 
-db.sqlite3
-
 # Archivos de caché
 __pycache__/
 
