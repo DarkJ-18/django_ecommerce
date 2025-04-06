@@ -1,6 +1,10 @@
 {% load static humanize custom_filters %}
-<div class="container">
-    <h1>Productos</h1>
+<div class="container p-3">
+    {% if mostrar_boton_agregar %}
+        {% if request.session.pista.rol == 3 or request.session.pista.rol == 1 %}
+            <a href="{% url 'agregar_producto' %}" class="btn btn-success mb-3">Agregar</a>
+        {% endif %}
+    {% endif %}
     <div class="row">
         {% for producto in data %}
         <div class="col-md-3 col-sm-6 mb-4">
@@ -13,13 +17,11 @@
                     {% endif %}
                     <a href="{% url 'detalle_producto' producto.id %}">
                         {% if producto.imagenes.all %}
-                        <div class="ratio ratio-1x1">
-                            <img src="{{ producto.imagenes.all.0.imagen.url }}" class="img-fluid object-fit-cover"
-                                alt="{{ producto.nombre }}">
-                        </div>
+                            <div class="ratio ratio-1x1">
+                                <img src="{{ producto.imagenes.all.0.imagen.url }}" class="img-fluid object-fit-cover" alt="{{ producto.nombre }}">
+                            </div>
                         {% else %}
-                        <img src="{% static 'assets/product.png' %}" class="product-image card-img-top"
-                            alt="Imagen no disponible">
+                            <img src="{% static 'assets/product.png' %}" class="product-image card-img-top" alt="Imagen no disponible">
                         {% endif %}
                     </a>
                 </div>
@@ -29,10 +31,10 @@
                     <div class="d-flex justify-content-between align-items-center">
                         {% if producto.en_oferta %}
                         <span class="text-muted text-decoration-line-through">
-                            ${{ producto.precio|floatformat:0|intcomma|replace_comma }}
+                            ${{ producto.precio_original|floatformat:0|intcomma|replace_comma }}
                         </span>
                         <span class="h4 mb-0 ms-2 text-primary">
-                            ${{ producto.precio_descuento|floatformat:0|intcomma|replace_comma }}
+                            ${{ producto.precio|floatformat:0|intcomma|replace_comma }}
                         </span>
                         {% else %}
                         <span class="h4 mb-0 text-primary">
@@ -40,7 +42,7 @@
                         </span>
                         {% endif %}
                     </div>
-                    {% if request.session.pista.rol == 1 %}
+                    {% if request.session.pista.rol == 3 or request.session.pista.rol == 1 %}
                     <div class="d-grid gap-2 mt-3">
                         <a href="{% url 'editar_producto' producto.id %}" class="btn btn-warning">Editar</a>
                         <a href="{% url 'eliminar_producto' producto.id %}" class="btn btn-danger">Eliminar</a>

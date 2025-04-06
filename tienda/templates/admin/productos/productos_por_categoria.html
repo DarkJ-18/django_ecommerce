@@ -1,0 +1,6 @@
+{% extends 'bases/_base.html' %}
+{% load static %}
+{% block main %}
+<h1>Productos en la categoría: {{ categoria }}</h1>
+{% include 'admin/productos/_productos.html' with data=productos %}
+{% endblock %}

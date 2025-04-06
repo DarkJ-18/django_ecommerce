@@ -1,11 +1,40 @@
-
-
-.btn_banner{
+/* .btn_banner{
     background-color: #000000;
     color: #ffffff;
     padding: 10px 20px;
     border-radius: 5px;
     text-decoration: none;
     
-}
+} */
 
+
+
+/* Seccion 3 index */
+
+.custom-card {
+  border: none;
+  border-radius: 15px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  background: #1e1e1e;
+  padding: 30px;
+}
+.custom-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 10px 20px #f1c307;
+}
+.custom-icon {
+  font-size: 3rem;
+  color: #f1c40f;
+}
+.custom-btn {
+  background: #f1c40f;
+  color: #121212;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 25px;
+  font-weight: bold;
+  transition: background 0.3s ease;
+}
+.custom-btn:hover {
+  background: #ecc62e;
+}

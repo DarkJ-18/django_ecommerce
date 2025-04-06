@@ -4,6 +4,7 @@
 {% block titulo %}Detalle del Producto{% endblock %}
 
 {% block main %}
+<link rel="stylesheet" href="{% static 'css/style.css' %}" />
 <div class="container py-5">
     <div class="row">
         <div class="col-md-6 mb-4">
@@ -31,10 +32,12 @@
         <div class="col-md-6">
             <h1 class="h2 mb-3">{{ producto.nombre }}</h1>
             <div class="mb-3">
-                <span class="h4 me-2">${{ producto.precio|floatformat:0|intcomma|replace_comma }}</span>
+                <span class="h4 me-2 text-primary">${{ producto.precio|floatformat:0|intcomma|replace_comma }}</span>
                 {% if producto.en_oferta %}
-                <span class="text-muted text-decoration-line-through"> ${{ producto.precio_descuento|floatformat:0|intcomma|replace_comma }}</span>
-                <span class="badge bg-danger ms-2">{{ producto.descuento |floatformat:0  }}% OFF</span>
+                <span class="text-muted text-decoration-line-through">
+                    ${{ producto.precio_original|floatformat:0|intcomma|replace_comma }}
+                </span>
+                <span class="badge bg-danger ms-2">{{ producto.descuento|floatformat:0 }}% OFF</span>
                 {% endif %}
             </div>
             <div class="mb-3">
@@ -61,17 +64,29 @@
             <div class="mb-4">
                 <div class="d-flex align-items-center">
                     <label class="me-2">Cantidad:</label>
-                    <select class="form-select w-auto">
-                        <option>1</option>
-                        <option>2</option>
-                        <option>3</option>
-                        <option>4</option>
-                        <option>5</option>
+                    <select class="form-select w-auto" id="cantidadSelect" onchange="updateCantidad()">
+                        {% for i in rango_cantidad %}
+                            <option value="{{ i }}">{{ i }}</option>
+                        {% endfor %}
                     </select>
                 </div>
             </div>
+            <script>
+                function updateCantidad() {
+                    const cantidad = document.getElementById('cantidadSelect').value;
+                    document.getElementById('cantidadInput').value = cantidad;
+                }
+            </script>
             <div class="d-grid gap-2">
-                <button class="btn btn-primary" type="button">Añadir al carrito</button>
+                {% if producto.stock > 0 %}
+                    <form method="POST" action="{% url 'agregar_carrito' producto.id %}">
+                        {% csrf_token %}
+                        <input type="hidden" name="cantidad" value="1" id="cantidadInput">
+                        <button class="btn btn-primary" type="submit">Añadir al carrito</button>
+                    </form>
+                {% else %}
+                    <button class="btn btn-secondary" type="button" disabled>Producto agotado</button>
+                {% endif %}
                 <button class="btn btn-outline-secondary" type="button">
                     <i class="far fa-heart me-2"></i>Añadir a favoritos
                 </button>
@@ -95,8 +110,8 @@
 </div>
 
 <script>
-    function changeMainImage(url) {
-        document.getElementById('mainImage').src = url;
-    }
+function changeMainImage(url) {
+    document.getElementById('mainImage').src = url;
+}
 </script>
 {% endblock %}
